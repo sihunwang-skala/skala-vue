@@ -175,7 +175,8 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 ### 추가 구현
 
 - Forecast API: 다음 24시간의 3시간 간격 예보를 불러와 상세 페이지의 향후 날씨 카드, 홈의 좋은 시간대, 활동 추천 분석에 사용합니다. 여러 도시는 `Promise.allSettled`로 조회해 한 도시 실패가 나머지를 막지 않게 했습니다.
-- Kakao Map: `PlaceMap.vue`(주변 장소, 위성 지도로 자동 표시), `CityMiniMap.vue`(도시 카드 위치 표시), `NationalMap.vue`(전국 5개 도시를 한 지도에 마커+라벨로 표시, `LatLngBounds`로 범위 자동 조정) — 새 지도 API 없이 기존 Kakao Maps SDK만 재사용했습니다.
+- Kakao Map은 용도에 따라 세 컴포넌트로 나눴습니다. `PlaceMap.vue`는 주변 장소를 찾고, `CityMiniMap.vue`는 도시 위치를 보여줍니다.
+- `NationalMap.vue`는 전국 5개 도시를 한 지도에 표시하고 `LatLngBounds`로 지도의 표시 범위를 맞춥니다.
 - Air Pollution API로 대기질을 조회해 상세 페이지에 표시하고 러닝, 야외활동 점수에 자동 반영합니다.
 - 도시별 기온 비교는 `TemperatureChart.vue`에서 별도 차트 라이브러리 없이 막대 그래프로 표현했습니다.
 - 예보 상태별 이모지와 강수확률을 표시하고, 전국 기온 막대는 실제 화면에 들어왔을 때 천천히 상승하도록 구현했습니다.
