@@ -102,6 +102,7 @@ const averageIndexScore = computed(() => {
 
 <style scoped>
 .index-card {
+  min-height: 340px;
   background: #edf6ff;
   padding: 15px;
   border-radius: 8px;

@@ -447,7 +447,9 @@ const heroWeatherTheme = computed(() => {
   margin: 14px 0 6px;
   padding-top: 12px;
   border-top: 1px solid #c3e6cb;
-  font-size: 13px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 22px;
 }
 .places-section {
   border-color: #96f2d7;
@@ -455,7 +457,9 @@ const heroWeatherTheme = computed(() => {
 }
 .hero-section h4 {
   margin: 0 0 6px;
-  font-size: 14px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
 }
 .slot-list {
   list-style: none;
