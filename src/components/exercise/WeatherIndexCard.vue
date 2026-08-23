@@ -55,7 +55,7 @@ const outfitTip = computed(() => {
 const outdoorIndex = computed(() => {
   const score = runningScore(props.weather, props.aqi)
   const message =
-    score >= 70 ? t.value.outdoorGood : score >= 40 ? t.value.outdoorModerate : t.value.outdoorBad
+    score >= 80 ? t.value.outdoorGood : score >= 50 ? t.value.outdoorModerate : t.value.outdoorBad
   return { title: t.value.outdoorTitle, score, message }
 })
 
@@ -83,7 +83,6 @@ const averageIndexScore = computed(() => {
         {{ t.overallIndexScore(averageIndexScore) }}
       </strong>
     </div>
-    <p class="humidity-line">{{ t.humidityLabel(weather.humidity) }}</p>
 
     <div v-for="index in indexList" :key="index.title" class="index-row">
       <span class="index-title">{{ index.title }}</span>
@@ -103,11 +102,11 @@ const averageIndexScore = computed(() => {
 
 <style scoped>
 .index-card {
-  background: #fff8f0;
+  background: #edf6ff;
   padding: 15px;
   border-radius: 8px;
   margin-bottom: 15px;
-  border: 1px solid #f1e0c8;
+  border: 1px solid #a5d8ff;
 }
 .index-heading {
   display: flex;
@@ -121,15 +120,9 @@ const averageIndexScore = computed(() => {
 .average-score {
   white-space: nowrap;
 }
-.humidity-line {
-  font-size: 13px;
-  color: #1971c2;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
 .index-row {
   padding: 8px 0;
-  border-top: 1px solid #f1e0c8;
+  border-top: 1px solid #d0ebff;
 }
 .index-row:first-of-type {
   border-top: none;

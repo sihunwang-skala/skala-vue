@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, watch, onBeforeUnmount } from 'vue'
 import { useLanguageStore } from '@/stores/languageStore'
 import { LABELS } from '@/i18n/labels'
 
@@ -19,6 +19,30 @@ const props = defineProps({
 
 const languageStore = useLanguageStore()
 const t = computed(() => LABELS[languageStore.language])
+const panelRef = ref(null)
+const isChartVisible = ref(false)
+let chartObserver = null
+
+watch(panelRef, (element) => {
+  if (!element || isChartVisible.value) return
+  if (!('IntersectionObserver' in window)) {
+    isChartVisible.value = true
+    return
+  }
+
+  chartObserver?.disconnect()
+  chartObserver = new IntersectionObserver(
+    ([entry]) => {
+      if (!entry.isIntersecting) return
+      isChartVisible.value = true
+      chartObserver.disconnect()
+    },
+    { threshold: 0.25 },
+  )
+  chartObserver.observe(element)
+})
+
+onBeforeUnmount(() => chartObserver?.disconnect())
 
 // 막대 높이는 절대 온도 스케일이 아니라, 지금 보이는 도시들 "안에서" 상대적으로 높낮이를
 // 비교하기 위한 값이다. 그래서 최소/최대도 이 목록 안에서만 계산한다.
@@ -50,7 +74,12 @@ function barTone(temp) {
 </script>
 
 <template>
-  <div v-if="cities.length" class="temperature-panel">
+  <div
+    v-if="cities.length"
+    ref="panelRef"
+    class="temperature-panel"
+    :class="{ 'is-visible': isChartVisible }"
+  >
     <div class="temperature-summary">
       <div class="summary-card summary-average">
         <span>{{ t.nationalAverageLabel }}</span>
@@ -67,12 +96,15 @@ function barTone(temp) {
     </div>
 
     <div class="temp-chart">
-      <div v-for="city in cities" :key="city.id" class="chart-bar-wrap">
+      <div v-for="(city, index) in cities" :key="city.id" class="chart-bar-wrap">
         <span class="chart-value">{{ city.temp }}{{ unitSymbol }}</span>
         <div
           class="chart-bar"
           :class="barTone(city.temp)"
-          :style="{ height: barHeight(city.temp) + '%' }"
+          :style="{
+            height: barHeight(city.temp) + '%',
+            '--bar-delay': `${index * 220}ms`,
+          }"
         ></div>
         <strong class="chart-label">{{ city.name }}</strong>
         <span class="chart-status">{{ city.status }}</span>
@@ -142,6 +174,22 @@ function barTone(temp) {
 .chart-bar {
   width: 28px;
   border-radius: 4px 4px 0 0;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: center bottom;
+}
+.temperature-panel.is-visible .chart-bar {
+  animation: bar-rise 2.4s cubic-bezier(0.22, 1, 0.36, 1) var(--bar-delay) both;
+}
+@keyframes bar-rise {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
 }
 .bar-hot {
   background: linear-gradient(180deg, #fa5252, #ffc9c9);
@@ -166,6 +214,13 @@ function barTone(temp) {
 }
 .chart-humidity {
   color: #1971c2;
+}
+@media (prefers-reduced-motion: reduce) {
+  .chart-bar {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 @media (max-width: 560px) {
   .temperature-summary {

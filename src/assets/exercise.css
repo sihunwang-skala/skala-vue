@@ -78,6 +78,45 @@ h1 {
   padding-bottom: 2px;
 }
 
+/* 정보 카드 공통 hover 애니메이션 */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  :where(
+    .weather-card,
+    .index-card,
+    .fortune-card,
+    .hero-section,
+    .activity-card,
+    .feature-card,
+    .info-card,
+    .forecast-list li,
+    .chart-bar-wrap,
+    .guide-rule,
+    .summary-card
+  ) {
+    transition:
+      transform 0.22s ease,
+      box-shadow 0.22s ease;
+  }
+
+  :where(
+    .weather-card,
+    .index-card,
+    .fortune-card,
+    .hero-section,
+    .activity-card,
+    .feature-card,
+    .info-card,
+    .forecast-list li,
+    .chart-bar-wrap,
+    .guide-rule,
+    .summary-card
+  ):hover {
+    z-index: 1;
+    box-shadow: 0 10px 24px rgb(44 62 80 / 12%);
+    transform: translateY(-3px) scale(1.01);
+  }
+}
+
 @media (max-width: 700px) {
   .app-container {
     margin: 16px auto;

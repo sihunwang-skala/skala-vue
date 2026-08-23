@@ -43,6 +43,38 @@ const t = computed(() => LABELS[languageStore.language])
         </div>
       </section>
 
+      <section class="score-section">
+        <h4>{{ t.aboutScoreTitle }}</h4>
+        <div class="score-rules">
+          <section v-for="rule in t.aboutScoreRules" :key="rule.title" class="score-rule">
+            <strong>{{ rule.title }}</strong>
+            <div class="formula-list">
+              <div
+                v-for="formula in rule.formulas"
+                :key="formula.text"
+                :class="['formula-row', `formula-${formula.kind}`]"
+              >
+                <small>{{ t.aboutScoreKinds[formula.kind] }}</small>
+                <span>{{ formula.text }}</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <h4>{{ t.aboutColorTitle }}</h4>
+        <div class="color-rules">
+          <div
+            v-for="rule in t.aboutColorRules"
+            :key="rule.range"
+            :class="['color-rule', `color-${rule.tone}`]"
+          >
+            <i aria-hidden="true"></i>
+            <span>{{ rule.range }}</span>
+            <small>{{ rule.label }}</small>
+          </div>
+        </div>
+      </section>
+
       <p class="about-note">{{ t.aboutNote }}</p>
     </div>
 
@@ -137,6 +169,89 @@ const t = computed(() => LABELS[languageStore.language])
   flex-wrap: wrap;
   gap: 7px;
 }
+.score-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #dee2e6;
+}
+.score-section h4 {
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+.score-rules {
+  margin: 0 0 16px;
+  color: #495057;
+}
+.score-rule + .score-rule {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #e9ecef;
+}
+.score-rule > strong {
+  display: block;
+  color: #2c3e50;
+  font-size: 12px;
+}
+.formula-list {
+  display: grid;
+  gap: 3px;
+  margin-top: 6px;
+}
+.formula-row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: start;
+  gap: 3px;
+  padding: 2px 0;
+  color: #495057;
+  font-size: 10.5px;
+}
+.formula-row small {
+  color: #868e96;
+  font-size: 9px;
+  font-weight: 700;
+}
+.formula-minus small {
+  color: #e03131;
+}
+.formula-result span {
+  font-weight: 600;
+}
+.color-rules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.color-rule {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  border: 1px solid #e9ecef;
+  border-radius: 999px;
+  background: #fff;
+  color: #495057;
+  font-size: 11px;
+}
+.color-rule i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.color-rule small {
+  color: #868e96;
+  font-size: 10px;
+}
+.color-high {
+  color: #2b8a3e;
+}
+.color-medium {
+  color: #d9480f;
+}
+.color-low {
+  color: #c92a2a;
+}
 .about-note {
   margin: 18px 0 0;
   padding: 10px 12px;
@@ -144,6 +259,7 @@ const t = computed(() => LABELS[languageStore.language])
   background: #fff3bf;
   color: #795000;
   font-size: 12px;
+  text-align: center;
 }
 .page-links {
   display: flex;

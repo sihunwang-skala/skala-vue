@@ -2,7 +2,7 @@
 
 Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제 단계에 따라 확장하면서 Vue Syntax, Composition API, Components, Vue Router, Pinia, Axios, Element Plus를 적용했습니다.
 
-기본 도시인 서울·수원·부산에 광주·제주를 추가했으며, OpenWeather의 현재 날씨·예보·대기질 데이터와 Kakao Map의 주변 장소 검색을 연결했습니다.
+기본 도시인 서울, 수원, 부산에 광주와 제주를 추가했으며, OpenWeather의 현재 날씨, 예보, 대기질 데이터와 Kakao Map의 주변 장소 검색을 연결했습니다.
 
 ## 과제 1: Vue Syntax
 
@@ -18,7 +18,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 ### 추가 구현
 
 - `utils/search.js`로 한글 포함 검색, 초성 검색(`ㅅㅇ` → 서울), 영문 검색(`Seoul` → 서울)을 지원합니다.
-- `languageStore.js` / `labels.js`로 한국어·English 전환, 이름순·기온순 정렬, 검색 결과 평균 기온을 추가했습니다.
+- `languageStore.js` / `labels.js`로 한국어와 English 전환, 이름순과 기온순 정렬, 검색 결과 평균 기온을 추가했습니다.
 
 ### 구현 판단
 
@@ -40,14 +40,14 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 ### 주요 구현
 
-- `ref`는 검색어·선택 도시·즐겨찾기 필터·로딩 상태에, `reactive`는 정렬 기준(`by`)과 방향(`order`)을 묶은 `sortOption`에 사용했습니다.
-- `computed`로 검색·정렬 목록, 평균 기온, 생활지수 평균, 현재 지역 요약을 계산합니다.
+- `ref`는 검색어, 선택 도시, 즐겨찾기 필터, 로딩 상태에, `reactive`는 정렬 기준(`by`)과 방향(`order`)을 묶은 `sortOption`에 사용했습니다.
+- `computed`로 검색과 정렬 목록, 평균 기온, 생활지수 평균, 현재 지역 요약을 계산합니다.
 - `watch`는 `sortOption.by`처럼 필요한 속성만 감시하고, `watchEffect`는 검색어 변화를 자동으로 따라갑니다.
 
 ### 추가 구현
 
 - 선택 도시를 "현재 지역"으로 보고 날씨, 생활지수, 종합 추천, 시간대별 러닝 적합도, 주변 장소를 한 화면에 모았습니다.
-- 도시ID·날짜·날씨상태를 시드로 쓰는 오늘의 날씨 운세를 추가해, 같은 날에는 같은 결과가 유지됩니다.
+- 도시ID, 날짜, 날씨상태를 시드로 쓰는 오늘의 날씨 운세를 추가해, 같은 날에는 같은 결과가 유지됩니다.
 
 ### 구현 판단
 
@@ -68,11 +68,11 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 ### 주요 구현
 
-- `SearchBar.vue`(검색어 Props + `update-query` emit), `WeatherCard.vue`(`select-card`/`click-detail` emit), `BaseDashboardCard.vue`(공통 슬롯 카드)로 부모·자식 역할을 나눴습니다.
+- `SearchBar.vue`(검색어 Props + `update-query` emit), `WeatherCard.vue`(`select-card`/`click-detail` emit), `BaseDashboardCard.vue`(공통 슬롯 카드)로 부모와 자식 역할을 나눴습니다.
 
 ### 추가 구현
 
-- `SortControls.vue`, `WeatherIndexCard.vue`(러닝·헤어·야외활동·옷차림 지수와 종합 점수)를 추가했습니다.
+- `SortControls.vue`, `WeatherIndexCard.vue`(러닝, 헤어, 야외활동, 옷차림 지수와 종합 점수)를 추가했습니다.
 - `PlaceMap.vue` / `CityMiniMap.vue` / `NationalMap.vue`로 Kakao 지도를, `FortuneCard.vue`로 운세를 표시합니다.
 
 ### 구현 판단
@@ -131,11 +131,11 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 ### 주요 구현
 
-- `configStore.js`(온도 단위), `weatherStore.js`(날씨 목록·로딩·에러·즐겨찾기), `languageStore.js`(언어)로 여러 화면이 공유하는 상태를 관리합니다.
+- `configStore.js`(온도 단위), `weatherStore.js`(날씨 목록, 로딩, 에러, 즐겨찾기), `languageStore.js`(언어)로 여러 화면이 공유하는 상태를 관리합니다.
 
 ### 추가 구현
 
-- `weatherStore`로 홈·상세·활동 추천 화면에 중복되던 도시 데이터를 한곳에서 관리하도록 정리했습니다.
+- `weatherStore`로 홈, 상세, 활동 추천 화면에 중복되던 도시 데이터를 한곳에서 관리하도록 정리했습니다.
 
 ### 구현 판단
 
@@ -160,13 +160,13 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 ### 주요 구현
 
 - `weatherApi.js`로 OpenWeather 요청을 모았고, 5개 도시의 Current Weather를 `Promise.all`로 병렬 조회해 `weatherStore`를 채웁니다.
-- 실패 시 화면 안내·다시 시도 버튼과 `ElMessage.error`로 알립니다.
+- 실패 시 화면 안내, 다시 시도 버튼과 `ElMessage.error`로 알립니다.
 
 ### 추가 구현
 
 - Forecast API: 상세 페이지의 예보 카드, 활동 추천 화면의 24시간 분석에 사용하고, 여러 도시는 `Promise.allSettled`로 조회해 한 도시 실패가 나머지를 막지 않게 했습니다.
 - Kakao Map: `PlaceMap.vue`(주변 장소, 위성 지도로 자동 표시), `CityMiniMap.vue`(도시 카드 위치 표시), `NationalMap.vue`(전국 5개 도시를 한 지도에 마커+라벨로 표시, `LatLngBounds`로 범위 자동 조정) — 새 지도 API 없이 기존 Kakao Maps SDK만 재사용했습니다.
-- Air Pollution API로 대기질을 조회해 상세 페이지 표시와 러닝·야외활동 점수 계산에 반영합니다.
+- Air Pollution API로 대기질을 조회해 상세 페이지 표시와 러닝, 야외활동 점수 계산에 반영합니다.
 - 도시별 기온 비교는 `TemperatureChart.vue`에서 별도 차트 라이브러리 없이 막대 그래프로 표현했습니다.
 
 ### 구현 판단
@@ -196,7 +196,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 ### 주요 구현
 
-- `main.js`에서 Element Plus를 전역 등록하고, `el-input`/`el-button`/`el-switch`/`el-tag`를 검색·정렬·대기질 표시 등 실제 화면에 적용했습니다.
+- `main.js`에서 Element Plus를 전역 등록하고, `el-input`/`el-button`/`el-switch`/`el-tag`를 검색, 정렬, 대기질 표시 등 실제 화면에 적용했습니다.
 - `ElMessage`, `ElMessageBox`로 API 오류, 즐겨찾기 결과, 전체 삭제 확인을 처리합니다.
 
 ### 추가 구현
@@ -206,7 +206,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 ### 구현 판단
 
-- 기존 카드·배지 디자인은 유지하고, 입력·버튼·피드백처럼 라이브러리 적용 효과가 분명한 부분만 교체했습니다.
+- 기존 카드와 배지 디자인은 유지하고, 입력, 버튼, 피드백처럼 라이브러리 적용 효과가 분명한 부분만 교체했습니다.
 - 100점 지수는 80점 이상 초록, 50~79점 주황, 49점 이하 빨강으로 표시하고 운세 별점도 `utils/scoreColor.js`에서 함께 관리합니다.
 
 ### 관련 파일
@@ -218,14 +218,27 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 - `src/utils/scoreColor.js`
 - `src/stores/weatherStore.js`
 
-## Code Challenge
+## 주요 기능 요약
 
-서비스 기능과 직접 관련 없는 강의 실습 코드는 `src/components/practices/library/`에 별도로 보관했습니다. 실습 증빙을 위해 코드는 유지하지만 실제 서비스 화면에는 마운트하지 않았습니다.
+- 실시간 날씨, 3시간 예보, 대기질 조회
+- 한글, 초성, 영문 도시 검색과 즐겨찾기
+- 섭씨와 화씨, 한국어와 English 전환
+- 날씨 기반 생활지수, 활동 추천, 오늘의 운세와 음악 추천
+- 전국 5개 도시 지도와 기온 비교
+- 전국 도시 현재 기온 슬라이드
+- 날씨별 주변 스포츠 장소 검색
+- 점수별 색상과 날씨별 화면 색상 적용
+- 카드 선택에 따른 정보 갱신과 화면 이동
 
-- `StoreCounter.vue`: Pinia state, getter, action 사용 실습
-- `AxiosWeather.vue`: 버튼 클릭으로 서울 현재 날씨를 조회하는 Axios 실습
-- `AxiosJson.vue`: JSONPlaceholder의 GET, POST, PUT, DELETE 실습
-- `ElementPlus.vue`: 폼, 수량·별점, 메시지·확인창, 진행률 컴포넌트 실습
+점수 반환 방식, 감점 조건, 색상 구간의 상세 기준은 앱의 **서비스 소개** 화면에 기입했습니다.
+
+## 구현 과정에서 고민한 점
+
+- 과제별 화면을 복제하지 않고 하나의 날씨 앱을 단계적으로 확장했습니다.
+- 검색해도 다른 지역 목록을 유지해 도시 비교 흐름이 끊기지 않게 했습니다.
+- 계산은 원본 섭씨로 처리하고 화면 표시만 선택한 단위로 변환했습니다.
+- 여러 도시 API 요청은 일부 실패가 전체 화면을 막지 않도록 구성했습니다.
+- 운세와 음악 추천은 도시, 날짜, 날씨를 기준으로 하루 동안 같은 결과를 유지합니다.
 
 ## 프로젝트 구조
 
@@ -241,6 +254,7 @@ src/
 │   │   ├── WeatherCard.vue       # 도시 날씨 카드
 │   │   ├── SortControls.vue      # 정렬 컨트롤
 │   │   ├── WeatherIndexCard.vue  # 생활지수
+│   │   ├── WeatherTicker.vue      # 전국 기온 슬라이드
 │   │   ├── UnitToggler.vue       # 온도 단위 전환
 │   │   ├── LanguageToggle.vue    # 언어 전환
 │   │   ├── FortuneCard.vue       # 오늘의 날씨 운세
@@ -248,7 +262,6 @@ src/
 │   │   ├── CityMiniMap.vue       # 도시 카드 위치 지도
 │   │   ├── NationalMap.vue       # 전국 5개 도시 Kakao 지도
 │   │   └── TemperatureChart.vue  # 도시별 기온 비교 막대그래프
-│   └── practices/library/        # Code Challenge 코드
 ├── i18n/
 │   └── labels.js                 # 한국어/영어 문구
 ├── router/
@@ -256,13 +269,13 @@ src/
 ├── stores/
 │   ├── configStore.js            # 온도 단위 상태
 │   ├── languageStore.js          # 언어 상태
-│   ├── weatherStore.js           # 날씨와 즐겨찾기 상태
-│   └── counter.js                # Counter 실습 Store
+│   └── weatherStore.js           # 날씨와 즐겨찾기 상태
 ├── utils/
 │   ├── activity.js               # 활동 점수와 추천 로직
 │   ├── fortune.js                # 날짜 기반 결정론적 운세
+│   ├── music.js                  # 날씨별 일일 음악 추천
 │   ├── scoreColor.js             # 점수 구간별 공통 색상
-│   ├── search.js                 # 초성·영문 검색
+│   ├── search.js                 # 초성과 영문 검색
 │   ├── weatherVisual.js          # 예보 상태별 날씨 이모지
 │   └── temperature.js            # 온도 변환
 └── views/
@@ -290,7 +303,7 @@ VITE_KAKAO_MAP_JS_KEY=your_kakao_javascript_key
 - `VITE_` 환경변수는 빌드 시 브라우저 번들에 포함됩니다. `.env.local`은 Git 커밋을 막기 위한 관리 방식이며 완전한 비밀 저장 방식은 아닙니다.
 - Kakao Developers에는 개발 주소(기본값 `http://localhost:5173`)를 JavaScript SDK 도메인으로 등록하고 카카오맵 제품을 활성화해야 합니다.
 
-현재 `.env.example`에는 `VITE_OPENWEATHER_API_KEY`만 정의되어 있습니다. Kakao 키를 사용할 때는 위의 `VITE_KAKAO_MAP_JS_KEY` 항목도 `.env.local`에 직접 추가해야 합니다.
+`.env.example`에는 `VITE_OPENWEATHER_API_KEY`와 `VITE_KAKAO_MAP_JS_KEY` 변수명만 제공합니다.
 
 ### 설치
 

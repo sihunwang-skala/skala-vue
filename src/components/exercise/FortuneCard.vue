@@ -78,8 +78,8 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
 <style scoped>
 .fortune-card {
   margin-bottom: 15px;
-  border-color: #f1e0c8;
-  background: #fffaf4;
+  border-color: #d0bfff;
+  background: #f8f0fc;
 }
 .fortune-header,
 .fortune-row-heading,
@@ -98,7 +98,7 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
 }
 .section-label,
 .lucky-item span {
-  color: #e8590c;
+  color: #7048e8;
   font-size: 13px;
   font-weight: 700;
 }
@@ -110,7 +110,7 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
 }
 .fortune-row {
   padding: 10px 0;
-  border-top: 1px solid #f1e0c8;
+  border-top: 1px solid #e5dbff;
 }
 .fortune-row-heading :deep(.el-rate) {
   height: auto;
@@ -119,6 +119,6 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
   margin-top: 4px;
   padding: 11px 12px;
   border-radius: 6px;
-  background: #fff3e6;
+  background: #f3f0ff;
 }
 </style>

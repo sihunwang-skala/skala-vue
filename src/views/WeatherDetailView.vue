@@ -24,6 +24,14 @@ const languageStore = useLanguageStore()
 const configStore = useConfigStore()
 const weatherStore = useWeatherStore()
 const t = computed(() => LABELS[languageStore.language])
+const cameFromActivities = computed(() => route.query.from === 'activities')
+const backButtonLabel = computed(() =>
+  cameFromActivities.value ? t.value.detailBackToActivities : t.value.detailBackButton,
+)
+
+function goBack() {
+  router.push({ name: cameFromActivities.value ? 'WeatherActivities' : 'WeatherHome' })
+}
 
 const cityData = ref(null)
 // [과제 6] 이 도시의 다가오는 예보 (3시간 간격)
@@ -143,8 +151,8 @@ function forecastTime(entry) {
       </ul>
     </div>
 
-    <button class="back-btn" @click="router.push({ name: 'WeatherHome' })">
-      {{ t.detailBackButton }}
+    <button class="back-btn" @click="goBack">
+      {{ backButtonLabel }}
     </button>
   </div>
 </template>

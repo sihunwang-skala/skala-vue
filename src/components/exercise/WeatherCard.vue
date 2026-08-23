@@ -45,7 +45,10 @@ function toggleFavorite() {
 <template>
   <div class="weather-card" @click="emit('select-card', props.cityItem)">
     <div class="weather-content">
-      <h4>{{ displayName }} ({{ displayStatus }})</h4>
+      <div class="city-heading">
+        <h4>{{ displayName }}</h4>
+        <span class="weather-status">{{ displayStatus }}</span>
+      </div>
       <p>현재 기온: {{ displayTemp }}{{ configStore.unitSymbol }}</p>
 
       <span v-if="cityItem.temp >= 25" class="badge hot">{{ t.hotBadge }}</span>
@@ -97,8 +100,20 @@ function toggleFavorite() {
 .weather-content {
   padding: 14px 12px;
 }
-.weather-content h4 {
-  margin: 0 0 16px;
+.city-heading {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 16px;
+}
+.city-heading h4 {
+  margin: 0;
+}
+.weather-status {
+  color: #868e96;
+  font-size: 11px;
+  font-weight: 400;
 }
 .weather-content p {
   margin: 0 0 12px;

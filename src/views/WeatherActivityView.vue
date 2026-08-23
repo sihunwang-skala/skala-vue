@@ -155,7 +155,11 @@ const recommendations = computed(() =>
             <div class="card-actions">
               <!-- RouterLink: 도시별 상세 페이지(WeatherDetailView)로 바로 연결 -->
               <RouterLink
-                :to="{ name: 'WeatherDetail', params: { cityId: city.id } }"
+                :to="{
+                  name: 'WeatherDetail',
+                  params: { cityId: city.id },
+                  query: { from: 'activities' },
+                }"
                 class="detail-link"
               >
                 {{ t.activitiesDetailLink }}
@@ -167,12 +171,17 @@ const recommendations = computed(() =>
           </div>
         </div>
 
-        <aside class="recommendation-guide">
-          <h4>{{ t.activityGuideTitle }}</h4>
-          <div v-for="rule in t.activityGuideRules" :key="rule.title" class="guide-rule">
-            <strong>{{ rule.title }}</strong>
-            <span>{{ rule.condition }}</span>
-            <p>{{ rule.sports }}</p>
+        <aside class="recommendation-guide" tabindex="0">
+          <div class="guide-heading">
+            <h4>{{ t.activityGuideTitle }}</h4>
+            <span aria-hidden="true">⌄</span>
+          </div>
+          <div class="guide-content">
+            <div v-for="rule in t.activityGuideRules" :key="rule.title" class="guide-rule">
+              <strong>{{ rule.title }}</strong>
+              <span>{{ rule.condition }}</span>
+              <p>{{ rule.sports }}</p>
+            </div>
           </div>
         </aside>
       </div>
@@ -192,7 +201,7 @@ const recommendations = computed(() =>
 }
 .activity-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
+  grid-template-columns: minmax(0, 1fr) 210px;
   gap: 16px;
   align-items: start;
 }
@@ -221,6 +230,34 @@ const recommendations = computed(() =>
 .activity-card.activity-low {
   border-color: #ffa8a8;
   background: #fff5f5;
+}
+.activity-card :deep(.place-map) {
+  margin-top: 8px;
+  outline: none;
+}
+.activity-card :deep(.map-box) {
+  height: 105px;
+  transition: height 0.45s ease;
+}
+.activity-card :deep(.place-list) {
+  max-height: 0;
+  overflow: hidden;
+  margin-top: 0;
+  opacity: 0;
+  transition:
+    max-height 0.45s ease,
+    margin-top 0.3s ease,
+    opacity 0.25s ease;
+}
+.activity-card:hover :deep(.map-box),
+.activity-card:focus-within :deep(.map-box) {
+  height: 220px;
+}
+.activity-card:hover :deep(.place-list),
+.activity-card:focus-within :deep(.place-list) {
+  max-height: 150px;
+  margin-top: 8px;
+  opacity: 1;
 }
 .sports-block {
   margin: 10px 0;
@@ -272,14 +309,54 @@ const recommendations = computed(() =>
 }
 .recommendation-guide {
   position: sticky;
-  top: 16px;
-  padding: 15px;
+  top: 52px;
+  padding: 11px 12px;
   border: 1px solid #dee2e6;
   border-radius: 8px;
   background: #f8f9fa;
+  outline: none;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
-.recommendation-guide h4 {
-  margin: 0 0 10px;
+.guide-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: default;
+}
+.guide-heading h4 {
+  margin: 0;
+  font-size: 13px;
+}
+.guide-heading > span {
+  color: #868e96;
+  transition: transform 0.3s ease;
+}
+.guide-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-height 0.45s ease,
+    opacity 0.25s ease,
+    margin-top 0.3s ease;
+}
+.recommendation-guide:hover,
+.recommendation-guide:focus-within {
+  border-color: #74c0fc;
+  box-shadow: 0 8px 20px rgb(44 62 80 / 10%);
+}
+.recommendation-guide:hover .guide-content,
+.recommendation-guide:focus-within .guide-content {
+  max-height: 520px;
+  margin-top: 7px;
+  opacity: 1;
+}
+.recommendation-guide:hover .guide-heading > span,
+.recommendation-guide:focus-within .guide-heading > span {
+  transform: rotate(180deg);
 }
 .guide-rule {
   display: flex;
@@ -307,6 +384,17 @@ const recommendations = computed(() =>
   }
   .activity-grid {
     grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .recommendation-guide,
+  .guide-content,
+  .guide-heading > span {
+    transition: none;
+  }
+  .activity-card :deep(.map-box),
+  .activity-card :deep(.place-list) {
+    transition: none;
   }
 }
 </style>

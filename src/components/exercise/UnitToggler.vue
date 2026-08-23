@@ -7,7 +7,9 @@ import { LABELS } from '@/i18n/labels'
 const configStore = useConfigStore()
 const languageStore = useLanguageStore()
 const t = computed(() => LABELS[languageStore.language])
-const unitName = computed(() => (configStore.unit === 'celsius' ? t.value.celsiusName : t.value.fahrenheitName))
+const unitName = computed(() =>
+  configStore.unit === 'celsius' ? t.value.celsiusName : t.value.fahrenheitName,
+)
 </script>
 
 <template>
@@ -16,7 +18,9 @@ const unitName = computed(() => (configStore.unit === 'celsius' ? t.value.celsiu
       >{{ t.unitLabel }} <strong>{{ unitName }}</strong></span
     >
     <!-- [UI Library] el-button 사용 -->
-    <el-button size="small" type="primary" @click="configStore.toggleUnit">{{ t.toggleUnitButton }}</el-button>
+    <el-button size="small" type="primary" @click="configStore.toggleUnit">{{
+      t.toggleUnitButton
+    }}</el-button>
   </div>
 </template>
 
@@ -25,5 +29,13 @@ const unitName = computed(() => (configStore.unit === 'celsius' ? t.value.celsiu
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-height: 24px;
+  font-size: 12px;
+}
+.unit-toggler :deep(.el-button) {
+  width: 68px;
+  height: 24px;
+  padding: 5px 8px;
+  font-size: 12px;
 }
 </style>

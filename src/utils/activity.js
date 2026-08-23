@@ -21,31 +21,31 @@ export function runningScore(city, aqi) {
 export function activityFor(city, aqi) {
   if (BAD_WEATHER.includes(city.main)) {
     return {
-      ko: '☔ 비나 눈을 피해 실내 수영, 배드민턴, 볼링을 추천해요.',
-      en: '☔ Avoid the rain or snow with indoor swimming, badminton, or bowling.',
+      ko: '☔ 비나 눈이 내려 야외 활동은 주의가 필요해요.',
+      en: '☔ Rain or snow makes outdoor activity less suitable.',
     }
   }
   if (aqi && aqi.aqi >= 4) {
     return {
-      ko: '😷 미세먼지가 나쁨 수준이에요. 마스크를 챙기거나 실내 활동을 추천해요.',
-      en: '😷 Air quality is poor — wear a mask or consider an indoor activity.',
+      ko: '😷 미세먼지가 나쁨 수준이라 야외 활동에 주의가 필요해요.',
+      en: '😷 Air quality is poor, so extra care is needed outdoors.',
     }
   }
   if (city.feelsLike >= 28) {
     return {
-      ko: '🥵 체감 온도가 높아요. 수영이나 아쿠아로빅, 해가 진 뒤 테니스를 추천해요.',
-      en: '🥵 It feels hot — try swimming, aqua aerobics, or tennis after sunset.',
+      ko: '🥵 체감 온도가 높아요.',
+      en: '🥵 The feels-like temperature is high.',
     }
   }
   if (city.feelsLike <= 15) {
     return {
-      ko: '🧥 선선해요. 등산, 테니스, 빠른 걷기를 즐기기 좋아요.',
-      en: '🧥 Cool weather — good for hiking, tennis, or brisk walking.',
+      ko: '🧥 체감 온도가 낮아 선선해요.',
+      en: '🧥 The feels-like temperature is low and cool.',
     }
   }
   return {
-    ko: '🏃 러닝, 자전거, 테니스를 즐기기 좋은 날씨예요.',
-    en: '🏃 Great weather for running, cycling, or tennis.',
+    ko: '🌤️ 기온과 체감온도가 활동하기 적당해요.',
+    en: '🌤️ The temperature and feels-like temperature are comfortable for activity.',
   }
 }
 

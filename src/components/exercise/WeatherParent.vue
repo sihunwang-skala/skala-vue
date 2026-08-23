@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, computed, watch, watchEffect, onMounted } from 'vue'
+import { ref, reactive, computed, watch, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useLanguageStore } from '@/stores/languageStore'
@@ -8,6 +8,7 @@ import { useWeatherStore } from '@/stores/weatherStore'
 import { LABELS, aqiLevelText } from '@/i18n/labels'
 import { matchesSearch } from '@/utils/search'
 import { convertTemp } from '@/utils/temperature'
+import { createDailyMusicRecommendations } from '@/utils/music'
 import {
   getForecast,
   normalizeForecastEntry,
@@ -39,13 +40,6 @@ const configStore = useConfigStore()
 // 1. [1일차 데이터] 도시 날씨 목록 — [과제 5] 여러 화면이 공유하도록 weatherStore로 이동
 // weatherStore.weatherList처럼 직접 접근한다 (구조분해하면 반응성이 깨질 수 있어서 지양)
 const weatherStore = useWeatherStore()
-
-// [과제 6] 처음 진입했을 때만 실제 API를 호출한다 (다른 화면 갔다 돌아왔을 때 중복 호출 방지)
-onMounted(() => {
-  if (weatherStore.weatherList.length === 0) {
-    weatherStore.fetchWeatherList()
-  }
-})
 
 // 2. [1일차 데이터] 검색어 및 선택된 도시
 const searchQuery = ref('')
@@ -117,15 +111,6 @@ const sortedWeatherList = computed(() => {
   return list
 })
 
-// 7-1. [본인 추가] 화면에 보이는 도시들의 평균 기온 (섭씨 원본으로 평균낸 뒤 현재 단위로 변환)
-const averageTemp = computed(() => {
-  const list = visibleWeatherList.value
-  if (list.length === 0) return 0
-  const sum = list.reduce((acc, item) => acc + item.temp, 0)
-  const rawAverage = Math.round((sum / list.length) * 10) / 10
-  return convertTemp(rawAverage, configStore.unit)
-})
-
 // 8. [본인 추가] 정렬 기준(sortOption.by)만 콕 집어서 감시하는 특정 속성 watch
 watch(
   () => sortOption.by,
@@ -169,15 +154,11 @@ const heroForecast = ref([])
 const heroAqi = ref(null)
 const isHeroForecastLoading = ref(false)
 const isHeroAqiLoading = ref(false)
-// [본인 추가] 지도를 굳이 눌러야만 보이면 불편해서, 기본값을 true로 바꿔 처음부터 보여준다.
-// (버튼은 그대로 두어서 원하면 접을 수도 있게 한다)
-const showHeroPlaces = ref(true)
 
 // selectedCity가 바뀔 때마다(기본 선택 포함) 그 도시의 예보/대기질을 새로 불러온다.
 watch(
   selectedCity,
   async (city) => {
-    showHeroPlaces.value = true
     if (!city) return
 
     isHeroForecastLoading.value = true
@@ -233,6 +214,19 @@ const heroPlaceKeyword = computed(() =>
 const heroRecommendation = computed(() =>
   selectedCity.value ? activityFor(selectedCity.value, heroAqi.value)[languageStore.language] : '',
 )
+const heroMusicRecommendations = computed(() =>
+  selectedCity.value ? createDailyMusicRecommendations(selectedCity.value) : [],
+)
+
+// 현재 날씨에 맞춰 대시보드의 바깥 배경 톤을 바꾼다.
+const heroWeatherTheme = computed(() => {
+  const main = selectedCity.value?.main
+  if (main === 'Clear') return 'clear'
+  if (main === 'Clouds') return 'cloudy'
+  if (['Rain', 'Drizzle', 'Thunderstorm'].includes(main)) return 'rainy'
+  if (main === 'Snow') return 'snowy'
+  return 'default'
+})
 </script>
 
 <template>
@@ -247,7 +241,7 @@ const heroRecommendation = computed(() =>
     </BaseDashboardCard>
 
     <!-- [본인 추가] 현재 지역(Hero) 요약 -->
-    <BaseDashboardCard v-if="selectedCity" class="hero-card">
+    <BaseDashboardCard v-if="selectedCity" :class="['hero-card', `weather-${heroWeatherTheme}`]">
       <h3>{{ t.currentRegionLabel }} {{ displayName(selectedCity) }}</h3>
 
       <div class="hero-stats">
@@ -268,13 +262,10 @@ const heroRecommendation = computed(() =>
       <!-- 도시ID + 날짜 + 날씨상태 시드로 하루 동안 고정되는 날씨 운세 -->
       <FortuneCard :weather="selectedCity" />
 
-      <div class="hero-section">
-        <h4>{{ t.comprehensiveTitle }}</h4>
+      <div class="hero-section recommendation-time-section">
+        <h4>{{ t.recommendationTimeTitle }}</h4>
         <p>{{ heroRecommendation }}</p>
-      </div>
-
-      <div class="hero-section">
-        <h4>{{ t.bestTimeTitle }}</h4>
+        <h5>{{ t.bestTimeTitle }}</h5>
         <p v-if="isHeroForecastLoading">{{ t.loadingForecast }}</p>
         <template v-else>
           <p>{{ heroBestSlotTime ? t.bestOutdoorTime(heroBestSlotTime) : t.noBestOutdoorTime }}</p>
@@ -290,16 +281,28 @@ const heroRecommendation = computed(() =>
               <span class="slot-verdict">{{ slot.verdict }}</span>
             </li>
           </ul>
+          <div class="music-recommendation">
+            <h5>{{ t.musicRecommendationTitle }}</h5>
+            <ul class="music-list">
+              <li
+                v-for="(song, index) in heroMusicRecommendations"
+                :key="`${song.artist}-${song.title}`"
+              >
+                <span class="track-number">{{ String(index + 1).padStart(2, '0') }}</span>
+                <span class="track-info">
+                  <strong>{{ song.title }}</strong>
+                  <small>{{ song.artist }}</small>
+                </span>
+                <span class="track-wave" aria-hidden="true"> <i></i><i></i><i></i><i></i> </span>
+              </li>
+            </ul>
+          </div>
         </template>
       </div>
 
-      <div class="hero-section">
+      <div class="hero-section places-section">
         <h4>{{ t.nearbyPlacesTitle }}</h4>
-        <el-button size="small" @click="showHeroPlaces = !showHeroPlaces">
-          {{ showHeroPlaces ? t.hidePlacesButton : t.showPlacesButton }}
-        </el-button>
         <PlaceMap
-          v-if="showHeroPlaces"
           :keyword="heroPlaceKeyword"
           :center-lat="selectedCity.lat"
           :center-lng="selectedCity.lon"
@@ -328,7 +331,6 @@ const heroRecommendation = computed(() =>
             @toggle-by="toggleSortBy"
             @toggle-order="toggleSortOrder"
           />
-          <span class="average-temp">{{ t.averageTemp(averageTemp, configStore.unitSymbol) }}</span>
         </div>
 
         <!-- [본인 추가] 즐겨찾기 필터 + 전체 삭제 -->
@@ -382,8 +384,24 @@ const heroRecommendation = computed(() =>
 }
 .hero-card {
   grid-area: hero;
-  background: #fff8f0;
   margin-bottom: 0;
+  border-color: #ced4da;
+  transition: background 0.3s ease;
+}
+.hero-card.weather-clear {
+  background: linear-gradient(145deg, #fff9db 0%, #e7f5ff 34%, #ffffff 72%);
+}
+.hero-card.weather-cloudy {
+  background: linear-gradient(145deg, #f1f3f5 0%, #dbe4ff 36%, #ffffff 72%);
+}
+.hero-card.weather-rainy {
+  background: linear-gradient(145deg, #d0ebff 0%, #e7f5ff 38%, #ffffff 74%);
+}
+.hero-card.weather-snowy {
+  background: linear-gradient(145deg, #f8f9fa 0%, #e3fafc 38%, #ffffff 74%);
+}
+.hero-card.weather-default {
+  background: linear-gradient(145deg, #edf2ff 0%, #e7f5ff 38%, #ffffff 74%);
 }
 .hero-loading {
   grid-area: hero;
@@ -417,6 +435,23 @@ const heroRecommendation = computed(() =>
 }
 .hero-section {
   margin-top: 14px;
+  padding: 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+}
+.recommendation-time-section {
+  border-color: #b2f2bb;
+  background: linear-gradient(135deg, #ebfbee 0%, #fff9db 100%);
+}
+.recommendation-time-section h5 {
+  margin: 14px 0 6px;
+  padding-top: 12px;
+  border-top: 1px solid #c3e6cb;
+  font-size: 13px;
+}
+.places-section {
+  border-color: #96f2d7;
+  background: #e6fcf5;
 }
 .hero-section h4 {
   margin: 0 0 6px;
@@ -455,9 +490,77 @@ const heroRecommendation = computed(() =>
   gap: 8px;
   margin-bottom: 12px;
 }
-.average-temp {
-  font-weight: bold;
-  color: #2c3e50;
+.music-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  overflow: hidden;
+  border: 1px solid rgb(46 125 50 / 16%);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 62%);
+}
+.music-list li {
+  display: grid;
+  grid-template-columns: 25px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 5px 9px;
+  color: #343a40;
+  font-size: 12px;
+}
+.music-list li + li {
+  border-top: 1px solid rgb(46 125 50 / 12%);
+}
+.track-number {
+  color: #868e96;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.track-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.track-info strong {
+  font-size: 12px;
+}
+.track-info small {
+  font-size: 10px;
+}
+.track-info strong,
+.track-info small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.track-info small {
+  color: #868e96;
+}
+.track-wave {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 14px;
+  padding: 0 2px;
+}
+.track-wave i {
+  width: 2px;
+  border-radius: 2px;
+  background: #51cf66;
+}
+.track-wave i:nth-child(1) {
+  height: 5px;
+}
+.track-wave i:nth-child(2) {
+  height: 11px;
+}
+.track-wave i:nth-child(3) {
+  height: 8px;
+}
+.track-wave i:nth-child(4) {
+  height: 4px;
 }
 .favorites-toolbar {
   display: flex;

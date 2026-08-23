@@ -9,6 +9,7 @@ function hasBatchim(word) {
 export const LABELS = {
   ko: {
     searchTitle: '🔍 도시 검색',
+    weatherTickerTitle: '전국 현재 기온',
     searchPlaceholder: '검색할 도시 이름 입력',
     searchHint: '초성(ㅅㅇ) · 영문(Seoul) 검색 가능',
     searchingLabel: '검색 중인 도시:',
@@ -67,6 +68,8 @@ export const LABELS = {
     otherRegionsTitle: '🌍 다른 지역 보기',
     comprehensiveTitle: '📝 종합 추천',
     bestTimeTitle: '⏰ 좋은 시간대',
+    recommendationTimeTitle: '📝 종합 추천과 좋은 시간대',
+    musicRecommendationTitle: '🎧 오늘의 날씨 음악',
     nearbyPlacesTitle: '🗺️ 주변 추천 장소',
     heroFeelsLike: (temp, symbol) => `체감 ${temp}${symbol}`,
     outdoorTitle: '🌤️ 야외활동 지수',
@@ -182,7 +185,6 @@ export const LABELS = {
     },
     indexDisclaimer: '※ 과학적으로 검증된 지표가 아닌, 우리 서비스만의 참고용 지수입니다.',
     showPlacesButton: '📍 주변 장소 보기',
-    hidePlacesButton: '지도 숨기기',
     placesSearching: '주변 장소를 검색하는 중입니다...',
     placesNotFound: '주변에서 추천할 장소를 찾지 못했습니다.',
     favoriteAdd: '즐겨찾기에 추가',
@@ -276,6 +278,42 @@ export const LABELS = {
     ],
     aboutOpenPage: '화면 바로가기',
     aboutTechnologyTitle: '구현에 사용한 기능',
+    aboutScoreTitle: '생활지수와 활동 적합도 점수 계산',
+    aboutScoreKinds: { base: '기본', minus: '감점', result: '결과' },
+    aboutScoreRules: [
+      {
+        title: '러닝 지수와 야외활동 지수',
+        formulas: [
+          { kind: 'base', text: '기본 점수 100점' },
+          { kind: 'minus', text: '비 또는 눈 50점 감점' },
+          { kind: 'minus', text: '체감온도 30℃ 이상 20점, 5℃ 이하 15점 감점' },
+          { kind: 'minus', text: '습도 80% 이상 10점, 풍속 8m/s 이상 10점 감점' },
+          { kind: 'minus', text: '대기질 나쁨 이상 20점 감점' },
+          { kind: 'result', text: '최종 점수는 0점에서 100점 사이' },
+        ],
+      },
+      {
+        title: '앞머리 생존지수',
+        formulas: [
+          { kind: 'base', text: '기본 점수는 100에서 습도를 뺀 값' },
+          { kind: 'minus', text: '풍속 8m/s 이상 15점 감점' },
+          { kind: 'result', text: '최저 점수는 0점' },
+        ],
+      },
+      {
+        title: '종합 생활지수',
+        formulas: [
+          { kind: 'base', text: '(러닝 + 앞머리 + 야외활동) ÷ 3' },
+          { kind: 'result', text: '계산 결과를 반올림' },
+        ],
+      },
+    ],
+    aboutColorTitle: '점수별 색상',
+    aboutColorRules: [
+      { range: '80점 이상', label: '좋음', tone: 'high' },
+      { range: '50점 이상 79점 이하', label: '보통', tone: 'medium' },
+      { range: '49점 이하', label: '주의', tone: 'low' },
+    ],
     aboutTechnologies: [
       'Vue 3 Composition API',
       'Vue Router',
@@ -301,12 +339,14 @@ export const LABELS = {
     detailWindLabel: '현재 풍속:',
     detailNotFound: (cityId) => `해당 지역(${cityId})의 상세 데이터가 존재하지 않습니다.`,
     detailBackButton: '← 메인 대시보드로 돌아가기',
+    detailBackToActivities: '← 활동 추천으로 돌아가기',
     activitiesTitle: '🏃 날씨 기반 활동 추천',
     activitiesSubtitle: '오늘 각 도시에서 뭘 하면 좋을지 추천해드려요.',
     activitiesDetailLink: '상세보기 →',
   },
   en: {
     searchTitle: '🔍 City Search',
+    weatherTickerTitle: 'Current Temperatures',
     searchPlaceholder: 'Enter a city name',
     searchHint: 'Also supports Korean initial-consonant (ㅅㅇ) & English (Seoul) search',
     searchingLabel: 'Searching for:',
@@ -369,6 +409,8 @@ export const LABELS = {
     otherRegionsTitle: '🌍 Other Regions',
     comprehensiveTitle: '📝 Overall Suggestion',
     bestTimeTitle: '⏰ Best Time',
+    recommendationTimeTitle: '📝 Suggestion and Best Time',
+    musicRecommendationTitle: "🎧 Today's Weather Music",
     nearbyPlacesTitle: '🗺️ Nearby Places',
     heroFeelsLike: (temp, symbol) => `Feels like ${temp}${symbol}`,
     outdoorTitle: '🌤️ Outdoor Activity Index',
@@ -485,7 +527,6 @@ export const LABELS = {
     indexDisclaimer:
       '※ A fun reference score from this app, not a scientifically validated metric.',
     showPlacesButton: '📍 Show Nearby Places',
-    hidePlacesButton: 'Hide Map',
     placesSearching: 'Searching nearby places...',
     placesNotFound: 'No recommended places found nearby.',
     favoriteAdd: 'Add to favorites',
@@ -579,6 +620,42 @@ export const LABELS = {
     ],
     aboutOpenPage: 'Open page',
     aboutTechnologyTitle: 'Built with',
+    aboutScoreTitle: 'Lifestyle and activity score calculations',
+    aboutScoreKinds: { base: 'Base', minus: 'Deduction', result: 'Result' },
+    aboutScoreRules: [
+      {
+        title: 'Running and outdoor indexes',
+        formulas: [
+          { kind: 'base', text: 'Base score is 100' },
+          { kind: 'minus', text: 'Deduct 50 for rain or snow' },
+          { kind: 'minus', text: 'Deduct 20 at 30℃ or above and 15 at 5℃ or below' },
+          { kind: 'minus', text: 'Deduct 10 at 80% humidity and 10 at 8m/s wind' },
+          { kind: 'minus', text: 'Deduct 20 for poor air quality or worse' },
+          { kind: 'result', text: 'Limit the final score to 0 through 100' },
+        ],
+      },
+      {
+        title: 'Hair survival index',
+        formulas: [
+          { kind: 'base', text: 'Base score is 100 minus humidity' },
+          { kind: 'minus', text: 'Deduct 15 at 8m/s wind or above' },
+          { kind: 'result', text: 'Minimum score is 0' },
+        ],
+      },
+      {
+        title: 'Overall lifestyle index',
+        formulas: [
+          { kind: 'base', text: '(running + hair + outdoor) ÷ 3' },
+          { kind: 'result', text: 'Round the result' },
+        ],
+      },
+    ],
+    aboutColorTitle: 'Score colors',
+    aboutColorRules: [
+      { range: '80 and above', label: 'Good', tone: 'high' },
+      { range: '50 to 79', label: 'Moderate', tone: 'medium' },
+      { range: '49 and below', label: 'Caution', tone: 'low' },
+    ],
     aboutTechnologies: [
       'Vue 3 Composition API',
       'Vue Router',
@@ -604,6 +681,7 @@ export const LABELS = {
     detailWindLabel: 'Wind:',
     detailNotFound: (cityId) => `No detail data exists for this city (${cityId}).`,
     detailBackButton: '← Back to dashboard',
+    detailBackToActivities: '← Back to activity recommendations',
     activitiesTitle: '🏃 Weather-Based Activity Picks',
     activitiesSubtitle: "Here's what to do in each city today.",
     activitiesDetailLink: 'Details →',
