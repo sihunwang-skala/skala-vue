@@ -256,13 +256,11 @@ const heroWeatherTheme = computed(() => {
         </el-tag>
       </div>
 
-      <div class="daily-summary-grid">
-        <!-- 오늘의 생활지수: 러닝/헤어/옷차림/야외활동을 한곳에 모아서 보여준다 -->
-        <WeatherIndexCard :weather="selectedCity" :aqi="heroAqi" />
+      <!-- 오늘의 생활지수: 러닝/헤어/옷차림/야외활동을 한곳에 모아서 보여준다 -->
+      <WeatherIndexCard :weather="selectedCity" :aqi="heroAqi" />
 
-        <!-- 도시ID + 날짜 + 날씨상태 시드로 하루 동안 고정되는 날씨 운세 -->
-        <FortuneCard :weather="selectedCity" />
-      </div>
+      <!-- 도시ID + 날짜 + 날씨상태 시드로 하루 동안 고정되는 날씨 운세 -->
+      <FortuneCard :weather="selectedCity" />
 
       <div class="hero-section recommendation-time-section">
         <h4>{{ t.recommendationTimeTitle }}</h4>
@@ -435,12 +433,6 @@ const heroWeatherTheme = computed(() => {
   color: #1971c2;
   font-weight: 600;
 }
-.daily-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: stretch;
-  gap: 14px;
-}
 .hero-section {
   margin-top: 14px;
   padding: 14px;
@@ -584,9 +576,6 @@ const heroWeatherTheme = computed(() => {
       'search'
       'hero'
       'regions';
-  }
-  .daily-summary-grid {
-    grid-template-columns: 1fr;
   }
 }
 </style>

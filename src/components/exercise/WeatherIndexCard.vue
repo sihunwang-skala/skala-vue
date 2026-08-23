@@ -102,12 +102,10 @@ const averageIndexScore = computed(() => {
 
 <style scoped>
 .index-card {
-  box-sizing: border-box;
-  height: 100%;
   background: #edf6ff;
   padding: 15px;
   border-radius: 8px;
-  margin-bottom: 0;
+  margin-bottom: 15px;
   border: 1px solid #a5d8ff;
 }
 .index-heading {
@@ -117,7 +115,9 @@ const averageIndexScore = computed(() => {
   gap: 12px;
 }
 .index-heading h3 {
-  margin-right: 0;
+  margin: 0;
+  font-size: 18px;
+  line-height: 24px;
 }
 .average-score {
   white-space: nowrap;
@@ -130,6 +130,7 @@ const averageIndexScore = computed(() => {
   border-top: none;
 }
 .index-title {
+  font-size: 14px;
   font-weight: bold;
 }
 .index-score {
@@ -148,7 +149,7 @@ const averageIndexScore = computed(() => {
 .index-message {
   margin: 4px 0 0;
   color: #495057;
-  font-size: 14px;
+  font-size: 13px;
 }
 .disclaimer {
   margin: 10px 0 0;

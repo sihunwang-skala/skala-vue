@@ -76,9 +76,7 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
 
 <style scoped>
 .fortune-card {
-  box-sizing: border-box;
-  height: 100%;
-  margin-bottom: 0;
+  margin-bottom: 15px;
   border-color: #c5b3f6;
   background: #fbf9ff;
 }
@@ -89,6 +87,13 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+.fortune-header {
+  min-height: 24px;
+}
+.fortune-header strong {
+  font-size: 18px;
+  line-height: 24px;
 }
 .total-fortune {
   padding-bottom: 12px;
@@ -103,6 +108,9 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
 .fortune-row p {
   margin: 5px 0 0;
   color: #495057;
+  font-size: 13px;
+}
+.fortune-row-heading strong {
   font-size: 14px;
 }
 .fortune-row {
