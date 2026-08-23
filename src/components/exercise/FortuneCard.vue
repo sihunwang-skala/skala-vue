@@ -40,7 +40,6 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
     <template #header>
       <div class="fortune-header">
         <strong>{{ t.fortune.title }}</strong>
-        <span>{{ t.fortune.dateLabel(fortune.dateKey) }}</span>
       </div>
     </template>
 
@@ -77,9 +76,11 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
 
 <style scoped>
 .fortune-card {
-  margin-bottom: 15px;
-  border-color: #d0bfff;
-  background: #f8f0fc;
+  box-sizing: border-box;
+  height: 100%;
+  margin-bottom: 0;
+  border-color: #c5b3f6;
+  background: #fbf9ff;
 }
 .fortune-header,
 .fortune-row-heading,
@@ -88,10 +89,6 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-}
-.fortune-header span {
-  color: #868e96;
-  font-size: 12px;
 }
 .total-fortune {
   padding-bottom: 12px;
@@ -110,7 +107,7 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
 }
 .fortune-row {
   padding: 10px 0;
-  border-top: 1px solid #e5dbff;
+  border-top: 1px solid #ddd2fa;
 }
 .fortune-row-heading :deep(.el-rate) {
   height: auto;
@@ -119,6 +116,7 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
   margin-top: 4px;
   padding: 11px 12px;
   border-radius: 6px;
-  background: #f3f0ff;
+  border: 1px solid #d8ccf7;
+  background: #eee8ff;
 }
 </style>

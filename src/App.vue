@@ -95,7 +95,10 @@ const tickerCities = computed(() => {
 .app-container .site-title {
   justify-content: center;
   width: 100%;
-  font-size: 2.2rem;
+  font-family: 'Avenir Next', 'Trebuchet MS', sans-serif;
+  font-size: 1.95rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
   text-align: center;
 }
 @media (max-width: 700px) {
