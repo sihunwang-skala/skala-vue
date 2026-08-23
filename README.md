@@ -1,10 +1,10 @@
 # SKALA-WEATHER
 
-Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제 단계에 따라 확장하면서 Vue Syntax, Composition API, Components, Vue Router, Pinia, Axios, Element Plus를 적용했습니다.
+Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 단계적으로 확장하면서 Vue Syntax, Composition API, Components, Vue Router, Pinia, Axios, Element Plus를 적용했습니다.
 
 기본 도시인 서울, 수원, 부산에 광주와 제주를 추가했으며, OpenWeather의 현재 날씨, 예보, 대기질 데이터와 Kakao Map의 주변 장소 검색을 연결했습니다.
 
-## 과제 1: Vue Syntax
+## 1. Vue Syntax
 
 ### 요구사항 충족
 
@@ -25,7 +25,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 ### 구현 판단
 
-- 과제별로 화면을 새로 만들지 않고 같은 대시보드를 다음 과제에서 계속 확장했습니다.
+- 단계마다 화면을 새로 만들지 않고 같은 대시보드를 계속 확장했습니다.
 
 ### 관련 파일
 
@@ -35,7 +35,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 - `src/utils/search.js`
 - `src/i18n/labels.js`
 
-## 과제 2: Composition API
+## 2. Composition API
 
 ### 요구사항 충족
 
@@ -66,7 +66,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 - `src/utils/music.js`
 - `src/stores/languageStore.js`
 
-## 과제 3: Components
+## 3. Components
 
 ### 요구사항 충족
 
@@ -101,7 +101,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 - `src/components/exercise/FortuneCard.vue`
 - `src/components/exercise/WeatherTicker.vue`
 
-## 과제 4: Vue Router
+## 4. Vue Router
 
 ### 요구사항 충족
 
@@ -133,7 +133,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 - `src/views/WeatherAboutView.vue`
 - `src/views/NotFoundView.vue`
 
-## 과제 5: Pinia
+## 5. Pinia
 
 ### 요구사항 충족
 
@@ -162,7 +162,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 - `src/utils/temperature.js`
 - `src/components/exercise/UnitToggler.vue`
 
-## 과제 6: Axios / OpenWeather API
+## 6. Axios / OpenWeather API
 
 ### 요구사항 충족
 
@@ -202,7 +202,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 - `src/utils/activity.js`
 - `index.html`
 
-## 과제 7: External UI Library
+## 7. External UI Library
 
 ### 요구사항 충족
 
@@ -250,13 +250,12 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 점수 반환 방식, 감점 조건, 색상 구간의 상세 기준은 앱의 서비스 소개 화면에서 확인할 수 있습니다.
 
-## 수업 중 질문하고 조언받은 점
+## 질문하고 조언받은 점
 
 - 공통 라이브러리와 앱 시작에 필요한 모듈은 정적 import하고, 각 View는 동적 import하여 해당 경로에 방문할 때 불러오도록 했습니다.
-- Nuxt도 Vue 기반의 공개 프레임워크지만, 이번 과제에서는 Vue Router와 Pinia를 직접 구성한 과정이 보여야 한다고 판단해 사용하지 않았습니다.
+- Nuxt도 Vue 기반의 공개 프레임워크지만, 이번 프로젝트에서는 Vue Router와 Pinia를 직접 구성한 과정이 보여야 한다고 판단해 사용하지 않았습니다.
 - 일반 문자열은 작은따옴표를 사용하고, 변수 삽입이나 여러 줄 문자열이 필요한 경우에만 백틱을 사용하는 방식으로 정리했습니다.
 - URL에 `#`이 붙는 해시 방식 대신 `createWebHistory()`를 사용했습니다. GitHub Pages에서 주소를 직접 열거나 새로고침할 때를 위해 `404.html`도 함께 생성합니다.
-- 온도 판정과 정렬은 단위 변경의 영향을 받지 않도록 원본 섭씨 값으로 계산하고, 사용자에게 보여주는 값만 섭씨 또는 화씨로 변환했습니다.
 
 ## 프로젝트 구조
 
