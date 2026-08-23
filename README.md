@@ -8,7 +8,8 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 ### 요구사항 충족
 
-- 과제 1 요구사항 충족 (내용생략)
+- `v-for`와 `:key`로 도시 카드를 반복 출력하고, `v-if`로 기온별 배지를 구분했습니다.
+- 한글 검색 입력은 Element Plus의 `:model-value`와 `@input`으로 처리하고, 상세보기와 즐겨찾기는 `@click.stop`으로 카드 클릭과 분리했습니다.
 
 ### 주요 구현
 
@@ -18,7 +19,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 ### 추가 구현
 
 - `utils/search.js`로 한글 포함 검색, 초성 검색(`ㅅㅇ` → 서울), 영문 검색(`Seoul` → 서울)을 지원합니다.
-- `languageStore.js` / `labels.js`로 한국어와 English 전환, 이름순과 기온순 정렬, 검색 결과 평균 기온을 추가했습니다.
+- `languageStore.js` / `labels.js`로 한국어와 English 전환, 이름순과 기온순 정렬을 추가했습니다.
 
 ### 구현 판단
 
@@ -36,18 +37,19 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 ### 요구사항 충족
 
-- 과제 2 요구사항 충족 (내용생략)
+- `ref`, `reactive`, `computed`, `watch`, `watchEffect`를 검색, 정렬, 선택 도시와 자동 계산에 적용했습니다.
 
 ### 주요 구현
 
 - `ref`는 검색어, 선택 도시, 즐겨찾기 필터, 로딩 상태에, `reactive`는 정렬 기준(`by`)과 방향(`order`)을 묶은 `sortOption`에 사용했습니다.
-- `computed`로 검색과 정렬 목록, 평균 기온, 생활지수 평균, 현재 지역 요약을 계산합니다.
+- `computed`로 검색과 정렬 목록, 생활지수 평균, 현재 지역 요약을 자동 계산합니다.
 - `watch`는 `sortOption.by`처럼 필요한 속성만 감시하고, `watchEffect`는 검색어 변화를 자동으로 따라갑니다.
 
 ### 추가 구현
 
 - 선택 도시를 "현재 지역"으로 보고 날씨, 생활지수, 종합 추천, 시간대별 러닝 적합도, 주변 장소를 한 화면에 모았습니다.
 - 도시ID, 날짜, 날씨상태를 시드로 쓰는 오늘의 날씨 운세를 추가해, 같은 날에는 같은 결과가 유지됩니다.
+- 도시, 날짜, 날씨에 따라 추천곡을 자동 선정하고 하루 동안 같은 목록을 보여주는 날씨 음악 추천을 추가했습니다.
 
 ### 구현 판단
 
@@ -58,13 +60,14 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 - `src/components/exercise/WeatherParent.vue`
 - `src/utils/activity.js`
 - `src/utils/fortune.js`
+- `src/utils/music.js`
 - `src/stores/languageStore.js`
 
 ## 과제 3: Components
 
 ### 요구사항 충족
 
-- 과제 3 요구사항 충족 (내용생략)
+- 부모가 상태를 관리하고 자식은 Props와 Emits로 값을 주고받으며, `BaseDashboardCard`는 Slot으로 내용을 받습니다.
 
 ### 주요 구현
 
@@ -73,6 +76,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 ### 추가 구현
 
 - `SortControls.vue`, `WeatherIndexCard.vue`(러닝, 헤어, 야외활동, 옷차림 지수와 종합 점수)를 추가했습니다.
+- 생활지수와 종합 점수는 선택 도시의 기온, 체감온도, 습도, 바람, 날씨상태, 대기질이 바뀌면 자동으로 다시 계산됩니다.
 - `PlaceMap.vue` / `CityMiniMap.vue` / `NationalMap.vue`로 Kakao 지도를, `FortuneCard.vue`로 운세를 표시합니다.
 
 ### 구현 판단
@@ -96,7 +100,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 ### 요구사항 충족
 
-- 과제 4 요구사항 충족 (내용생략)
+- Dynamic Route, `useRoute`, `useRouter`, Lazy Loading, Catch-all Route를 실제 화면 이동에 적용했습니다.
 
 ### 주요 구현
 
@@ -127,7 +131,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 ### 요구사항 충족
 
-- 과제 5 요구사항 충족 (내용생략)
+- Pinia Store의 state, getter, action으로 온도 단위, 날씨 목록, 언어와 즐겨찾기를 전역 관리합니다.
 
 ### 주요 구현
 
@@ -155,7 +159,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 ### 요구사항 충족
 
-- 과제 6 요구사항 충족 (내용생략)
+- Axios로 OpenWeather Current Weather API를 호출하고 loading, error, 정상 상태를 나누어 표시합니다.
 
 ### 주요 구현
 
@@ -164,9 +168,9 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 ### 추가 구현
 
-- Forecast API: 상세 페이지의 예보 카드, 활동 추천 화면의 24시간 분석에 사용하고, 여러 도시는 `Promise.allSettled`로 조회해 한 도시 실패가 나머지를 막지 않게 했습니다.
+- Forecast API: 다음 24시간의 3시간 간격 예보를 불러와 상세 페이지의 향후 날씨 카드, 홈의 좋은 시간대, 활동 추천 분석에 사용합니다. 여러 도시는 `Promise.allSettled`로 조회해 한 도시 실패가 나머지를 막지 않게 했습니다.
 - Kakao Map: `PlaceMap.vue`(주변 장소, 위성 지도로 자동 표시), `CityMiniMap.vue`(도시 카드 위치 표시), `NationalMap.vue`(전국 5개 도시를 한 지도에 마커+라벨로 표시, `LatLngBounds`로 범위 자동 조정) — 새 지도 API 없이 기존 Kakao Maps SDK만 재사용했습니다.
-- Air Pollution API로 대기질을 조회해 상세 페이지 표시와 러닝, 야외활동 점수 계산에 반영합니다.
+- Air Pollution API로 대기질을 조회해 상세 페이지에 표시하고 러닝, 야외활동 점수에 자동 반영합니다.
 - 도시별 기온 비교는 `TemperatureChart.vue`에서 별도 차트 라이브러리 없이 막대 그래프로 표현했습니다.
 
 ### 구현 판단
@@ -192,7 +196,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 
 ### 요구사항 충족
 
-- 과제 7 요구사항 충족 (내용생략)
+- Element Plus를 설치하고 입력, 버튼, 스위치, 태그, 별점, 메시지와 확인창을 실제 서비스 화면에 적용했습니다.
 
 ### 주요 구현
 
@@ -254,7 +258,7 @@ src/
 │   │   ├── WeatherCard.vue       # 도시 날씨 카드
 │   │   ├── SortControls.vue      # 정렬 컨트롤
 │   │   ├── WeatherIndexCard.vue  # 생활지수
-│   │   ├── WeatherTicker.vue      # 전국 기온 슬라이드
+│   │   ├── WeatherTicker.vue     # 전국 기온 슬라이드
 │   │   ├── UnitToggler.vue       # 온도 단위 전환
 │   │   ├── LanguageToggle.vue    # 언어 전환
 │   │   ├── FortuneCard.vue       # 오늘의 날씨 운세
