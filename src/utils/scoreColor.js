@@ -1,7 +1,7 @@
 // 100점 지수와 5점 별점에서 같은 의미의 색을 사용한다.
 export function scoreTone(score) {
-  if (score >= 70) return 'high'
-  if (score >= 40) return 'medium'
+  if (score >= 80) return 'high'
+  if (score >= 50) return 'medium'
   return 'low'
 }
 
