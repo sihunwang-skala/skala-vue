@@ -102,7 +102,7 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
 .lucky-item span {
   color: #7048e8;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
 }
 .total-fortune p,
 .fortune-row p {
@@ -112,6 +112,10 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
 }
 .fortune-row-heading strong {
   font-size: 14px;
+  font-weight: 600;
+}
+.lucky-item strong {
+  font-weight: 600;
 }
 .fortune-row {
   padding: 10px 0;

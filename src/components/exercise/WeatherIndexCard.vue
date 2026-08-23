@@ -121,6 +121,7 @@ const averageIndexScore = computed(() => {
 }
 .average-score {
   white-space: nowrap;
+  font-weight: 600;
 }
 .index-row {
   padding: 8px 0;
@@ -131,11 +132,11 @@ const averageIndexScore = computed(() => {
 }
 .index-title {
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
 }
 .index-score {
   float: right;
-  font-weight: bold;
+  font-weight: 600;
 }
 .score-high {
   color: #2f9e44;

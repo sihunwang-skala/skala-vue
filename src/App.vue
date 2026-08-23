@@ -97,7 +97,7 @@ const tickerCities = computed(() => {
   width: 100%;
   font-family: 'Avenir Next', 'Trebuchet MS', sans-serif;
   font-size: 1.95rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.06em;
   text-align: center;
 }
