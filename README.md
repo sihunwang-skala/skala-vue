@@ -85,7 +85,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 ### 구현 판단
 
 - 상태와 로직은 `WeatherParent.vue`가 소유하고 자식은 Props/Emits만 처리하도록 유지했습니다.
-- 필요하지 않은 곳에는 Lifecycle Hook을 억지로 추가하지 않았습니다.
+- Lifecycle Hook은 데이터 조회나 정리가 필요한 컴포넌트에만 적용했습니다.
 
 ### 관련 파일
 
