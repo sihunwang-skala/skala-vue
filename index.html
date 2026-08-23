@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite App</title>
+    <!-- Kakao Maps JS SDK: autoload=false로 받아만 두고, 실제 사용하는 화면(PlaceMap.vue)에서
+         window.kakao.maps.load(...)로 필요할 때만 초기화한다. -->
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=%VITE_KAKAO_MAP_JS_KEY%&libraries=services&autoload=false"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
