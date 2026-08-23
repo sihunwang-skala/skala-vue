@@ -218,6 +218,7 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 - 즐겨찾기: `weatherStore`에 `favoriteCityIds`/`toggleFavorite()`/`clearFavorites()` 등을 추가하고, 카드의 ⭐ 버튼과 즐겨찾기만 보기 필터로 이어집니다.
 - 운세 패널은 `el-card` + `el-rate`로 표시합니다.
 - 점수 구간에 따라 생활지수와 활동 카드 색상을 자동 변경하고, 주요 카드에는 접근성을 고려한 호버 애니메이션을 적용했습니다.
+- Tailwind CSS를 Vite 플러그인으로 연결하고 서비스 소개 문단에 배경, 테두리, 여백, 그림자 유틸리티 클래스를 적용했습니다.
 
 ### 구현 판단
 
@@ -232,6 +233,8 @@ Vue 3와 Vite로 만든 날씨 대시보드입니다. 하나의 화면을 과제
 - `src/components/exercise/SortControls.vue`
 - `src/utils/scoreColor.js`
 - `src/stores/weatherStore.js`
+- `src/assets/tailwind.css`
+- `vite.config.js`
 
 ## 주요 기능 요약
 

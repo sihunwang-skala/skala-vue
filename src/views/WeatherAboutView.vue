@@ -15,7 +15,9 @@ const t = computed(() => LABELS[languageStore.language])
     <hr />
 
     <div class="description-box">
-      <p class="about-intro">{{ t.aboutBody }}</p>
+      <p class="about-intro rounded-lg border border-sky-100 bg-white p-4 shadow-sm">
+        {{ t.aboutBody }}
+      </p>
 
       <div class="feature-grid">
         <button
