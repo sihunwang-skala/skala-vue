@@ -447,7 +447,7 @@ const heroWeatherTheme = computed(() => {
   margin: 14px 0 6px;
   padding-top: 12px;
   border-top: 1px solid #c3e6cb;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 22px;
 }

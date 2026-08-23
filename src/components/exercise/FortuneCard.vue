@@ -76,6 +76,8 @@ onUnmounted(() => window.clearTimeout(midnightTimer))
 
 <style scoped>
 .fortune-card {
+  box-sizing: border-box;
+  min-height: 365px;
   margin-bottom: 15px;
   border-color: #c5b3f6;
   background: #fbf9ff;
